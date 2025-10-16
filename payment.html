@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수강료 결제 - 정치토론학교</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+    <style>
+        .payment-hero {
+            min-height: 40vh;
+            padding-top: 120px;
+        }
+
+        .payment-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 20px;
+        }
+
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+        }
+
+        .course-info h3 {
+            font-size: 1.5rem;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #2C3E50;
+            font-weight: 700;
+        }
+
+        .price-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            opacity: 0.8;
+            font-size: 1.2rem;
+        }
+
+        .discount-badge {
+            background: #F39C12;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .final-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-top: 1rem;
+        }
+
+        .payment-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section-title {
+            font-size: 1.3rem;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .plan-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .plan-option {
+            position: relative;
+            padding: 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .plan-option:hover {
+            border-color: #F39C12;
+            background: #fff9f0;
+        }
+
+        .plan-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .plan-option input[type="radio"]:checked + .plan-content {
+            border-left: 4px solid #F39C12;
+            padding-left: 1rem;
+        }
+
+        .plan-option.selected {
+            border-color: #F39C12;
+            background: #fff9f0;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C3E50;
+        }
+
+        .plan-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #F39C12;
+        }
+
+        .plan-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .payment-widget {
+            margin: 2rem 0;
+            min-height: 400px;
+        }
+
+        .terms-section {
+            margin: 2rem 0;
+        }
+
+        .terms-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .terms-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-item label {
+            cursor: pointer;
+            line-height: 1.6;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: #F39C12;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pay-button:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .pay-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #2C3E50;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #F39C12;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+
+            .final-price {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">정치토론학교</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">홈으로</a></li>
+                <li><a href="application.html">지원하기</a></li>
+            </ul>
+            <button class="mobile-menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Payment Hero -->
+    <section class="hero payment-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">수강료 결제</h1>
+            <p class="hero-description">
+                정치토론학교 1기 등록을 완료해주세요
+            </p>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment-section">
+        <a href="index.html" class="back-link">← 홈으로 돌아가기</a>
+
+        <div class="payment-container">
+            <!-- Course Info -->
+            <div>
+                <div class="course-info">
+                    <h3>📚 과정 정보</h3>
+                    <div class="info-item">
+                        <span class="info-label">과정명</span>
+                        <span class="info-value">정치토론학교 1기</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">기간</span>
+                        <span class="info-value">6주 (12회)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">형태</span>
+                        <span class="info-value">온라인 LIVE</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">정원</span>
+                        <span class="info-value">10명 한정</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">포함 내역</span>
+                        <span class="info-value">
+                            라이브 세션 6회<br>
+                            소그룹 실습 6회<br>
+                            개인 피드백<br>
+                            학습 자료<br>
+                            수료증
+                        </span>
+                    </div>
+                </div>
+
+                <div class="price-info">
+                    <h3>💰 결제 금액</h3>
+                    <div class="original-price" id="original-price">₩420,000</div>
+                    <div>
+                        <span class="discount-badge" id="discount-badge">얼리버드 할인</span>
+                    </div>
+                    <div class="final-price" id="final-price">₩350,000</div>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="payment-form">
+                <h3 class="form-section-title">결제 방식 선택</h3>
+
+                <div class="plan-options">
+                    <div class="plan-option selected" onclick="selectPlan('earlybird')">
+                        <input type="radio" name="plan" id="plan-earlybird" value="350000" checked>
+                        <div class="plan-content">
+                            <div class="plan-header">
+                                <span class="plan-name">얼리버드 (마감 2주 전)</span>
+                                <span class="plan-price">₩350,000</span>
+                            </div>
+                            <p class="plan-description">16% 할인된 가격으로 등록하세요</p>
+                        </div>
+                    </div>
+
+                    <div class="plan-option" onclick="selectPlan('regular')">
+                        <input type="radio" name="plan" id="plan-regular" value="420000">
+                        <div class="plan-content">
+                            <div class="plan-header">
+                                <span class="plan-name">정규 등록</span>
+                                <span class="plan-price">₩420,000</span>
+                            </div>
+                            <p class="plan-description">정규 수강료</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toss Payments Widget -->
+                <div id="payment-widget" class="payment-widget"></div>
+
+                <!-- Terms Agreement -->
+                <div class="terms-section">
+                    <div class="terms-item">
+                        <input type="checkbox" id="terms-service" required>
+                        <label for="terms-service">
+                            <strong>이용약관</strong> 및 <strong>개인정보 수집 및 이용</strong>에 동의합니다.
+                        </label>
+                    </div>
+                    <div class="terms-item">
+                        <input type="checkbox" id="terms-refund" required>
+                        <label for="terms-refund">
+                            <strong>환불 정책</strong>에 동의합니다. (개강 전 100%, 1주차 후 70%, 2주차 후 50%, 3주차 이후 환불 불가)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pay Button -->
+                <button class="pay-button" id="pay-button" onclick="requestPayment()">
+                    결제하기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>정치토론학교</h4>
+                    <p>이념을 넘어, 논리로 만나는 공간</p>
+                </div>
+                <div class="footer-section">
+                    <h4>문의</h4>
+                    <p>이메일: info@politicaldebate.kr</p>
+                    <p>카카오톡: @정치토론학교</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 정치토론학교. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Toss Payments 설정
+        const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'; // 테스트 클라이언트 키
+        const customerKey = 'customer_' + Math.random().toString(36).substr(2, 9); // 고유 고객 ID
+
+        let paymentWidget;
+        let selectedAmount = 350000;
+
+        // 결제 위젯 초기화
+        async function initPaymentWidget() {
+            const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
+
+            // 결제 UI 렌더링
+            await paymentWidget.renderPaymentMethods(
+                '#payment-widget',
+                { value: selectedAmount },
+                { variantKey: 'DEFAULT' }
+            );
+        }
+
+        // 플랜 선택
+        function selectPlan(plan) {
+            const options = document.querySelectorAll('.plan-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            if (plan === 'earlybird') {
+                document.getElementById('plan-earlybird').checked = true;
+                options[0].classList.add('selected');
+                selectedAmount = 350000;
+                document.getElementById('final-price').textContent = '₩350,000';
+                document.getElementById('discount-badge').style.display = 'inline-block';
+            } else {
+                document.getElementById('plan-regular').checked = true;
+                options[1].classList.add('selected');
+                selectedAmount = 420000;
+                document.getElementById('final-price').textContent = '₩420,000';
+                document.getElementById('discount-badge').style.display = 'none';
+            }
+
+            // 결제 위젯 금액 업데이트
+            if (paymentWidget) {
+                paymentWidget.updateAmount(selectedAmount);
+            }
+        }
+
+        // 결제 요청
+        async function requestPayment() {
+            // 약관 동의 확인
+            const termsService = document.getElementById('terms-service').checked;
+            const termsRefund = document.getElementById('terms-refund').checked;
+
+            if (!termsService || !termsRefund) {
+                alert('약관에 모두 동의해주세요.');
+                return;
+            }
+
+            try {
+                // 결제 요청
+                await paymentWidget.requestPayment({
+                    orderId: 'ORDER_' + Date.now(),
+                    orderName: '정치토론학교 1기',
+                    customerName: '수강생',
+                    customerEmail: 'student@example.com',
+                    successUrl: window.location.origin + '/payment-success.html',
+                    failUrl: window.location.origin + '/payment-fail.html',
+                });
+            } catch (error) {
+                console.error('결제 오류:', error);
+                alert('결제 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        }
+
+        // 페이지 로드 시 위젯 초기화
+        window.addEventListener('load', async () => {
+            paymentWidget = await loadPaymentWidget(clientKey, customerKey);
+
+            await paymentWidget.renderPaymentMethods(
+                '#payment-widget',
+                { value: selectedAmount },
+                { variantKey: 'DEFAULT' }
+            );
+        });
+    </script>
+</body>
+</html>

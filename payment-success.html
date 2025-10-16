@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 완료 - 정치토론학교</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+
+        .success-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .payment-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #2C3E50;
+            font-weight: 700;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #F39C12;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .home-button:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-icon">✅</div>
+            <h1 class="success-title">결제가 완료되었습니다!</h1>
+            <p class="success-message">
+                정치토론학교 1기 등록이 완료되었습니다.<br>
+                등록하신 이메일로 상세한 안내를 보내드렸습니다.
+            </p>
+
+            <div class="payment-info" id="payment-info">
+                <div class="info-row">
+                    <span class="info-label">주문번호</span>
+                    <span class="info-value" id="orderId">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">결제금액</span>
+                    <span class="info-value" id="amount">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">결제수단</span>
+                    <span class="info-value" id="method">-</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="home-button">홈으로 돌아가기</a>
+        </div>
+    </div>
+
+    <script>
+        // URL 파라미터 파싱
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        const amount = urlParams.get('amount');
+        const paymentKey = urlParams.get('paymentKey');
+
+        // 결제 정보 표시
+        if (orderId) {
+            document.getElementById('orderId').textContent = orderId;
+        }
+        if (amount) {
+            document.getElementById('amount').textContent = '₩' + parseInt(amount).toLocaleString();
+        }
+
+        // 결제 승인 API 호출
+        if (paymentKey && orderId && amount) {
+            fetch('/api/confirm-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentKey, orderId, amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('결제 승인 완료:', data);
+                    if (data.method) {
+                        document.getElementById('method').textContent = data.method;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('결제 승인 오류:', error);
+            });
+        }
+    </script>
+</body>
+</html>
