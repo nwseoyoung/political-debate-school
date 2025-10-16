@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지원서 작성 - 정치토론학교</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        .application-hero {
+            min-height: 40vh;
+            padding-top: 120px;
+        }
+
+        .application-hero h1 {
+            font-size: 3rem;
+        }
+
+        .form-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 20px;
+        }
+
+        .form-intro {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 4px solid #F39C12;
+        }
+
+        .form-intro h3 {
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .form-intro p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-intro .highlight {
+            color: #F39C12;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .required {
+            color: #F39C12;
+        }
+
+        .form-help {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #F39C12;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-option label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            line-height: 1.6;
+        }
+
+        .form-section-divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #F39C12, transparent);
+            margin: 3rem 0;
+        }
+
+        .form-section-title {
+            font-size: 1.8rem;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .submit-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+        }
+
+        .terms {
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: #F39C12;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .submit-button:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .submit-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #2C3E50;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #F39C12;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid #f5c6cb;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">정치토론학교</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">홈으로</a></li>
+                <li><a href="index.html#program">프로그램</a></li>
+                <li><a href="index.html#curriculum">커리큘럼</a></li>
+                <li><a href="index.html#faq">FAQ</a></li>
+            </ul>
+            <button class="mobile-menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Application Hero -->
+    <section class="hero application-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">정치토론학교 1기<br>지원서 작성</h1>
+            <p class="hero-description">
+                여러분의 진솔한 이야기를 들려주세요
+            </p>
+        </div>
+    </section>
+
+    <!-- Application Form Section -->
+    <section class="form-section">
+        <a href="index.html" class="back-link">← 홈으로 돌아가기</a>
+
+        <div class="form-intro">
+            <h3>지원하시기 전에</h3>
+            <p>정치토론학교는 <span class="highlight">선착순이 아닌 선발제</span>로 운영됩니다.</p>
+            <p>다양한 정치 성향과 배경을 가진 분들이 함께 학습할 수 있도록 구성하며, 학습 의지와 열린 태도를 중요하게 평가합니다.</p>
+            <p>진솔하게 작성해주시면 감사하겠습니다.</p>
+        </div>
+
+        <div class="success-message" id="success-message">
+            <strong>지원서가 제출되었습니다!</strong><br>
+            검토 후 개별 연락드리겠습니다. 이메일을 확인해주세요.
+        </div>
+
+        <div class="error-message" id="error-message">
+            <strong>제출 중 오류가 발생했습니다.</strong><br>
+            필수 항목을 모두 입력했는지 확인해주세요.
+        </div>
+
+        <form id="application-form">
+            <!-- Basic Information -->
+            <h2 class="form-section-title">📋 기본 정보</h2>
+
+            <div class="form-group">
+                <label for="name">이름 <span class="required">*</span></label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">연령대 <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="age-20s" name="age" value="20대" required>
+                        <label for="age-20s">20대</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age-30s" name="age" value="30대">
+                        <label for="age-30s">30대</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age-40s" name="age" value="40대">
+                        <label for="age-40s">40대</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age-50plus" name="age" value="50대 이상">
+                        <label for="age-50plus">50대 이상</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일 <span class="required">*</span></label>
+                <input type="email" id="email" name="email" class="form-control" required>
+                <div class="form-help">합격 여부 및 안내사항을 보내드릴 이메일 주소입니다.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">연락처 <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="occupation">직업</label>
+                <input type="text" id="occupation" name="occupation" class="form-control" placeholder="예: 대학생, 직장인, 자영업 등">
+            </div>
+
+            <div class="form-group">
+                <label for="location">거주 지역</label>
+                <input type="text" id="location" name="location" class="form-control" placeholder="예: 서울시 강남구">
+            </div>
+
+            <hr class="form-section-divider">
+
+            <!-- Political Orientation -->
+            <h2 class="form-section-title">🗳️ 정치적 성향</h2>
+
+            <div class="form-group">
+                <label for="orientation">정치적 성향 <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="orientation-progressive" name="orientation" value="진보" required>
+                        <label for="orientation-progressive">진보</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="orientation-moderate" name="orientation" value="중도">
+                        <label for="orientation-moderate">중도</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="orientation-conservative" name="orientation" value="보수">
+                        <label for="orientation-conservative">보수</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="orientation-other" name="orientation" value="기타">
+                        <label for="orientation-other">기타/잘 모르겠음</label>
+                    </div>
+                </div>
+                <div class="form-help">정답은 없습니다. 현재 느끼시는 대로 편하게 선택해주세요.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="orientation-desc">나의 정치 성향에 대한 간단한 설명</label>
+                <textarea id="orientation-desc" name="orientation-desc" class="form-control" placeholder="자신의 정치적 성향을 간단히 설명해주세요. (선택사항)"></textarea>
+            </div>
+
+            <hr class="form-section-divider">
+
+            <!-- Experience and Motivation -->
+            <h2 class="form-section-title">💡 경험과 동기</h2>
+
+            <div class="form-group">
+                <label for="debate-experience">토론 경험</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="exp-none" name="debate-experience" value="없음">
+                        <label for="exp-none">없음</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="exp-little" name="debate-experience" value="조금 있음">
+                        <label for="exp-little">조금 있음</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="exp-much" name="debate-experience" value="많이 있음">
+                        <label for="exp-much">많이 있음</label>
+                    </div>
+                </div>
+                <textarea id="experience-detail" name="experience-detail" class="form-control" placeholder="토론 동아리, 대회, 스터디 등 구체적인 경험이 있다면 간단히 적어주세요." style="margin-top: 1rem;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="motivation">지원 동기 <span class="required">*</span></label>
+                <textarea id="motivation" name="motivation" class="form-control" placeholder="정치토론학교에 지원하신 이유를 진솔하게 적어주세요. (300자 이내)" maxlength="300" required></textarea>
+                <div class="char-count"><span id="motivation-count">0</span> / 300자</div>
+            </div>
+
+            <div class="form-group">
+                <label for="expectations">기대하는 점 <span class="required">*</span></label>
+                <textarea id="expectations" name="expectations" class="form-control" placeholder="이 프로그램을 통해 무엇을 얻고 싶으신가요? (200자 이내)" maxlength="200" required></textarea>
+                <div class="char-count"><span id="expectations-count">0</span> / 200자</div>
+            </div>
+
+            <hr class="form-section-divider">
+
+            <!-- Interests -->
+            <h2 class="form-section-title">🎯 관심 주제</h2>
+
+            <div class="form-group">
+                <label>가장 토론해보고 싶은 정치 이슈를 선택해주세요 (최대 3개)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-economy" name="topics" value="경제정책">
+                        <label for="topic-economy">경제정책 (복지, 세금, 부동산 등)</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-labor" name="topics" value="노동">
+                        <label for="topic-labor">노동 이슈 (근로시간, 최저임금 등)</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-education" name="topics" value="교육">
+                        <label for="topic-education">교육 정책</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-environment" name="topics" value="환경">
+                        <label for="topic-environment">환경/에너지 정책</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-foreign" name="topics" value="외교안보">
+                        <label for="topic-foreign">외교/안보</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-gender" name="topics" value="성평등">
+                        <label for="topic-gender">성평등</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-justice" name="topics" value="사법">
+                        <label for="topic-justice">사법 개혁</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="topic-media" name="topics" value="언론">
+                        <label for="topic-media">언론/미디어</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="weakness">나의 토론 약점</label>
+                <textarea id="weakness" name="weakness" class="form-control" placeholder="토론할 때 어려운 점이나 고치고 싶은 습관이 있다면 적어주세요."></textarea>
+            </div>
+
+            <hr class="form-section-divider">
+
+            <!-- Additional Information -->
+            <h2 class="form-section-title">📌 추가 정보</h2>
+
+            <div class="form-group">
+                <label for="referrer">추천인</label>
+                <input type="text" id="referrer" name="referrer" class="form-control" placeholder="수료생이 추천한 경우 추천인 이름을 적어주세요.">
+            </div>
+
+            <div class="form-group">
+                <label for="how-found">정치토론학교를 어떻게 알게 되셨나요?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="found-sns" name="how-found" value="SNS">
+                        <label for="found-sns">SNS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="found-search" name="how-found" value="검색">
+                        <label for="found-search">인터넷 검색</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="found-recommend" name="how-found" value="지인추천">
+                        <label for="found-recommend">지인 추천</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="found-other" name="how-found" value="기타">
+                        <label for="found-other">기타</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="additional">기타 하고 싶은 말씀</label>
+                <textarea id="additional" name="additional" class="form-control" placeholder="우리에게 전하고 싶은 말씀이 있다면 자유롭게 적어주세요."></textarea>
+            </div>
+
+            <!-- Terms and Submit -->
+            <div class="submit-section">
+                <div class="terms">
+                    <label><strong>개인정보 수집 및 이용 동의</strong></label>
+                    <div class="terms-box">
+                        <p><strong>1. 수집하는 개인정보 항목</strong></p>
+                        <p>이름, 연령대, 이메일, 연락처, 직업, 거주지역, 정치적 성향 등</p>
+
+                        <p><strong>2. 개인정보의 수집 및 이용 목적</strong></p>
+                        <p>- 지원자 선발 및 심사<br>
+                        - 합격자 안내 및 프로그램 운영<br>
+                        - 문의사항 응대</p>
+
+                        <p><strong>3. 개인정보의 보유 및 이용 기간</strong></p>
+                        <p>수집일로부터 1년간 보관 후 파기</p>
+
+                        <p><strong>4. 동의 거부 권리</strong></p>
+                        <p>개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있으며, 동의 거부 시 지원이 제한될 수 있습니다.</p>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="terms-agree" name="terms-agree" required>
+                        <label for="terms-agree">개인정보 수집 및 이용에 동의합니다. <span class="required">*</span></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button" id="submit-btn">지원서 제출하기</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>정치토론학교</h4>
+                    <p>이념을 넘어, 논리로 만나는 공간</p>
+                </div>
+                <div class="footer-section">
+                    <h4>문의</h4>
+                    <p>이메일: info@politicaldebate.kr</p>
+                    <p>카카오톡: @정치토론학교</p>
+                </div>
+                <div class="footer-section">
+                    <h4>SNS</h4>
+                    <p>Instagram | Facebook | YouTube</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 정치토론학교. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Character counter for textareas
+        const motivationTextarea = document.getElementById('motivation');
+        const motivationCount = document.getElementById('motivation-count');
+        const expectationsTextarea = document.getElementById('expectations');
+        const expectationsCount = document.getElementById('expectations-count');
+
+        motivationTextarea.addEventListener('input', () => {
+            motivationCount.textContent = motivationTextarea.value.length;
+        });
+
+        expectationsTextarea.addEventListener('input', () => {
+            expectationsCount.textContent = expectationsTextarea.value.length;
+        });
+
+        // Limit checkboxes to 3
+        const topicCheckboxes = document.querySelectorAll('input[name="topics"]');
+        topicCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const checkedCount = document.querySelectorAll('input[name="topics"]:checked').length;
+                if (checkedCount > 3) {
+                    checkbox.checked = false;
+                    alert('최대 3개까지만 선택 가능합니다.');
+                }
+            });
+        });
+
+        // Form submission
+        const form = document.getElementById('application-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const successMsg = document.getElementById('success-message');
+        const errorMsg = document.getElementById('error-message');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Hide previous messages
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            // Get form data
+            const formData = new FormData(form);
+            const data = {};
+
+            for (let [key, value] of formData.entries()) {
+                if (key === 'topics') {
+                    if (!data[key]) data[key] = [];
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Validate required fields
+            const requiredFields = ['name', 'age', 'email', 'phone', 'orientation', 'motivation', 'expectations'];
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!data[field] || data[field].trim() === '') {
+                    isValid = false;
+                }
+            });
+
+            if (!data['terms-agree']) {
+                isValid = false;
+                alert('개인정보 수집 및 이용에 동의해주세요.');
+                return;
+            }
+
+            if (isValid) {
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = '제출 중...';
+
+                // Send data to API
+                fetch('/api/submit-application', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Show success message
+                        successMsg.style.display = 'block';
+                        form.reset();
+                        motivationCount.textContent = '0';
+                        expectationsCount.textContent = '0';
+
+                        // Scroll to success message
+                        successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // Show error message
+                        errorMsg.innerHTML = `<strong>제출 중 오류가 발생했습니다.</strong><br>${result.error}`;
+                        errorMsg.style.display = 'block';
+                        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                    errorMsg.innerHTML = '<strong>제출 중 오류가 발생했습니다.</strong><br>네트워크 연결을 확인하고 다시 시도해주세요.';
+                    errorMsg.style.display = 'block';
+                    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                })
+                .finally(() => {
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '지원서 제출하기';
+                });
+
+            } else {
+                errorMsg.style.display = 'block';
+                errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    </script>
+</body>
+</html>
